@@ -1,50 +1,38 @@
-import { useState } from 'react';
 import './App.css';
-import Newfile from './Newfile';
-import { useLog } from './useLog';
+import { Routes, Route } from 'react-router-dom'
+import Home from './pages/Home';
+import About from './pages/About';
+import RootLayout from './components/RootLayout';
+import ContactUs from './pages/ContactUs';
+import Details from './components/Details';
+import Update from './components/Update';
+import NotFound from './pages/NotFound';
 
-const dark ={
-  color: 'white',
-  backgroundColor: 'black'
-}
-const light ={
-  color: 'black',
-  backgroundColor: 'yellow'
-}
+
+
+
+
 
 
 function App() {
- 
-  const [num, setNum] = useState(0)
-  const [appear, setAppear] = useState(true)
-  const [theme, setTheme] = useState(light)
 
-
-
-
-  useLog(theme)
-
-
-
-
-  const wangwan = ()=>{
-    if(theme!==dark){
-      setTheme(dark)
-    }else{ setTheme(light)}
-  }
 
   return (
-    <div className="App"
-    style={
-      theme
-    }   
-    >
-      <button onClick={wangwan}>{theme===dark? 'light':'dark'}</button>
-      <div>{num}</div>
-      <button onClick={()=>{setNum(num-1)}}>-</button>
-      <button onClick={()=>{setNum(num+1)}}>+</button>
-    <div>{appear? <Newfile name="Ola"/>: <p>nothing</p>}</div>
-    <button onClick={()=>{setAppear(!appear)}}>Change</button>
+    <div className="App">
+
+      <Routes>
+        {/* The root layout houses the layout of the web application */}
+        <Route path='/' element={<RootLayout />}>
+          {/* This is where you put the routes to your pages */}
+          <Route index element={<Home />} />
+          <Route path='/about' element={<About />} >
+            <Route path='details' element={<Details/>}/>
+            <Route path='update' element={<Update/>}/>
+          </Route>
+          <Route path='/service' element={<ContactUs />} />
+        </Route>
+        <Route path='*' element={<NotFound/>}/>
+      </Routes>
     </div>
   );
 }
